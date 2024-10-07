@@ -1,0 +1,94 @@
+---
+title: "Homework-15"
+format: html
+editor: visual
+---
+
+This is an Quarto for Homework 15.
+
+```{r}
+rm(list=ls())
+library(here)
+library(tidyverse)
+```
+
+summary: used to give statistical data (means and such)
+
+```{r}
+comp<-read.csv(here("data","compensation.csv"))
+glimpse(comp)
+summary(comp)
+```
+
+dplyr verbs now:
+
+```{r}
+select(comp, Fruit) #using a column
+```
+
+select all but one:
+
+```{r}
+select(comp, -Root)
+```
+
+grabbing rows with slice
+
+```{r}
+slice(comp, 2)
+```
+
+multiple rows:
+
+```{r}
+slice(comp, 2:10) #for a range
+slice(comp, c(2,4,6)) #for nonconsecutives
+```
+
+learning about filter:
+
+recall logical operators: (== equals, != does not equal, \>greater than, \>=greater than or equal to, \| or, & and)
+
+```{r}
+filter(comp, Fruit>80) #selects only the rows that have a fruit value > 80
+```
+
+you can do stuff with these too
+
+```{r}
+lohifruit<-filter(comp,Fruit>80|Fruit<20)
+lohifruit
+```
+
+```{r}
+head(comp) #ran after mutate again for concision
+comp<-mutate(comp,logfruit=log(Fruit)) #adds a new column
+```
+
+arranging:
+
+```{r}
+arrange(comp, Fruit) #arrange by increasing fruit
+```
+
+You can combine these commands too
+
+```{r}
+select(filter(comp, Fruit>80), Root)
+```
+
+Same thing with pipe:
+
+```{r}
+comp %>% filter(Fruit>80)%>%select(Root)
+```
+
+```{r}
+meanfruit<-summarise(group_by(comp,Grazing),meanfruit=mean(Fruit)) #attaching means to an object
+```
+
+can also do this with pipes:
+
+```{r}
+comp%>%group_by(Grazing)%>%summarise(meanfruit=mean(Fruit),sdfruit=sd(Fruit))
+```
