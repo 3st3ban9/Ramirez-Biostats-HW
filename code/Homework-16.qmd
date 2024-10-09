@@ -1,0 +1,78 @@
+---
+title: "Homework-16"
+format: html
+editor: visual
+---
+
+Setting up:
+
+```{r}
+rm(list=ls())
+library(tidyverse)
+library(here)
+```
+
+importing data:
+
+```{r}
+cover<-read.csv(here("data","donnerville_percent_cover.csv"))
+glimpse(cover)
+str(cover)
+```
+
+making some factor variables (Site, Plot.type, cover_type)
+
+```{r}
+cover$Site<-as.factor(cover$Site)
+cover$Plot.type<-as.factor(cover$Plot.type)
+cover$cover_type<-as.factor(cover$cover_type)
+```
+
+making date variable
+
+```{r}
+cover$Date<-dmy(cover$Date)
+```
+
+Fixing some data:
+
+Site:
+
+```{r}
+levels(cover$Site)
+fix<-which(cover$Site=="donnerville-3")
+cover$Site[fix]<-"Donnerville 3"
+fix2<-which(cover$Site==c("donnerville 1","DONNERVILLE - 1"))
+cover$Site[fix2]<-"Donnerville 1"
+fix3<-which(cover$Site=="donnerville 2")
+cover$Site[fix3]<-"Donnerville 2"
+cover$Site<-factor(cover$Site)
+```
+
+cover_type:
+
+```{r}
+levels(cover$cover_type)
+fix4<-which(cover$cover_type=="bare")
+cover$cover_type[fix4]<-"Bare"
+fix5<-which(cover$cover_type=="bryophtes")
+cover$cover_type[fix5]<-"Bryophytes"
+fix6<-which(cover$cover_type=="vasc ")
+cover$cover_type[fix6]<-"Vascular"
+cover$cover_type<-factor(cover$cover_type)
+```
+
+average percent cover by cover type for donnerville 1:
+
+```{r}
+meanpercent<-summarise(group_by(cover,Site,cover_type),meanpercent=mean(Percent))
+summary(meanpercent)
+slice(meanpercent,1:3)
+```
+
+average percent vascular plant cover across all sites:
+
+```{r}
+meanvasc<-summarise(group_by(cover,cover_type),meanvasc=mean(Percent))
+slice(meanvasc, 3)
+```
