@@ -1,0 +1,47 @@
+---
+title: "Homework-18"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list=ls())
+library(here)
+library(tidyverse)
+comp<-read.csv(here("data","compensation.csv"))
+```
+
+Making a plot out of two variables in the "comp" object
+
+```{r}
+ggplot(comp, aes(x=Root,y=Fruit,colour = Grazing))+ #colour= adds color depending on a third variable can also use shape= for shapes
+  geom_point()+ #use size= to make bigger dots
+  theme_bw()+ #get rid of gray
+  xlab("Root Biomass")+ #axis labels
+  ylab("Fruit Production")
+```
+
+Now for box plots:
+
+```{r}
+ggplot(comp, aes(x=Grazing,y=Fruit))+ 
+  geom_boxplot()+
+  geom_point(size=4,colour='lightgrey',alpha=.5)+ #changes size, color, and transparency of points
+  theme_bw()+ 
+  xlab("Grazing Treatment")+ 
+  ylab("Fruit Production")
+```
+
+histograms!
+
+```{r}
+ggplot(comp, aes(x=Fruit))+
+  geom_histogram(bins = 10)+#changes number of bins used in the plot, can also use binwidth= to change how wide they are
+  facet_wrap(~Grazing) #divides data by grazing treatment
+```
+
+Saving these images can be done with command
+
+```{r}
+ggsave("testplot.png")
+```
