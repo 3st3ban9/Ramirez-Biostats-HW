@@ -1,0 +1,18 @@
+---
+title: "Homework feedback"
+format: html
+editor: visual
+---
+
+## Homework feedback
+### Homework 15
+Looks good. I like that you made some good notes about what you were doing and what the code was doing.
+
+### Homework 16
+You didn't fix the site names correctly so still have "Donnerville 1" and "DONNERVILLE - 1" as site names, which messes up the math at lines 68 - 70. Also, you haven't filtered to just Donnerville 1. See the key for a more robust approach to solving that question. Also, I'm going to suggest that you work on getting comfortable with piping, as it will make your code much easier to read and understand.
+
+Full credit though, because you made a good effort.
+
+### Homework 18
+Looks good.
+
