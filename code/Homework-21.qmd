@@ -1,0 +1,86 @@
+---
+title: "Homework-21"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list=ls())
+library(tidyverse)
+library(here)
+```
+
+import data
+
+```{r}
+lady<- read.csv(here("data","ladybirds.csv"))
+glimpse(lady)
+```
+
+organizing data:
+
+```{r}
+totals<-lady|>
+  group_by(Habitat,colour)|>
+  summarise(total.number=sum(number))
+```
+
+Making an easy bar chart:
+
+```{r}
+ggplot(totals,aes(Habitat,total.number, fill=colour))+
+  geom_bar(stat = 'identity',position='dodge')+#stat='identity' tells R not to try an calculate anything. position='dodge' tells R to put the bars next to each other instead of stacked.
+  scale_fill_manual(values = c(black='black', red='red'))#fixing the colours
+```
+
+we need a matrix for a chi square test
+
+```{r}
+totals #is a data frame...
+```
+
+Let's try to fix that:
+
+```{r}
+lady.mat<-xtabs(number~Habitat+colour,data = lady)
+lady.mat
+```
+
+Now to see the chi square test
+
+```{r}
+chisq.test(lady.mat)
+```
+
+Also...
+
+```{r}
+lady.chi<-chisq.test(lady.mat)
+names(lady.chi)
+```
+
+```{r}
+lady.chi$expected
+```
+
+Now let's move on to t tests:
+
+```{r}
+ozone<-read.csv(here("data","ozone.csv"))
+glimpse(ozone)
+```
+
+first step is making a figure:
+
+```{r}
+ggplot(ozone,aes(Ozone))+
+  geom_histogram(binwidth = 10)+
+  facet_wrap(~Garden.location, ncol=1)+
+  theme_bw()
+```
+
+Now to actually do a t test (2 sample)
+
+```{r}
+t.test(Ozone~Garden.location, data = ozone) #does Ozone vary as a function of Garden.location? take the data from the ozone data frame
+```
