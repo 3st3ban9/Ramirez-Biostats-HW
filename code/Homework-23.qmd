@@ -1,0 +1,57 @@
+---
+title: "Homework-23"
+format: html
+editor: visual
+---
+
+Set up and read data
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(here)
+plant_gr<-read.csv(here("data","plant.growth.rate.csv"))
+glimpse(plant_gr)
+```
+
+a scatterplot:
+
+```{r}
+ggplot(plant_gr,aes(soil.moisture.content,plant.growth.rate))+
+  geom_point()+
+  ylab("Plant Growth Rate (mm/week)")+
+  theme_bw()
+```
+
+using lm()
+
+```{r}
+model_pgr<-lm(plant.growth.rate~soil.moisture.content,data = plant_gr)#fit a linear model with hypothesis growth is a function of moisture using variables from plant_gr
+```
+
+Useful plots:
+
+```{r}
+library(ggfortify)
+autoplot(model_pgr,smooth.colour=NA)
+```
+
+NOT ANOVA:
+
+```{r}
+anova(model_pgr)
+```
+
+```{r}
+summary(model_pgr)
+```
+
+Last step is putting this all back into the plot:
+
+```{r}
+ggplot(plant_gr,aes(soil.moisture.content,plant.growth.rate))+
+  geom_point()+
+  geom_smooth(method = 'lm')+#shove a linear model fitted line
+  ylab("Plant Growth Rate (mm/week)")+
+  theme_bw()
+```
