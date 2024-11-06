@@ -1,0 +1,65 @@
+---
+title: "Homework-25"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list = ls())
+library(here)
+library(tidyverse)
+library(ggfortify)
+daphnia<-read.csv(here("data","Daphniagrowth.csv"))
+```
+
+Looking at the data:
+
+```{r}
+glimpse(daphnia)
+```
+
+```{r}
+ggplot(daphnia, aes(parasite, growth.rate))+
+  geom_boxplot()+
+  theme_bw()+
+  coord_flip()#flips the axes
+```
+
+Build the model:
+
+```{r}
+model_grow<-lm(growth.rate~parasite, data=daphnia)
+```
+
+Look at diagnostics:
+
+```{r}
+autoplot(model_grow, smooth.colour = NA)
+```
+
+Use the one-way anova to make an inference:
+
+```{r}
+anova(model_grow)
+```
+
+```{r}
+summary(model_grow)
+```
+
+Let's get some means:
+
+```{r}
+sumdat<- daphnia|>
+  group_by(parasite)|>
+  summarise(meangr=mean(growth.rate))
+sumdat
+```
+
+A final graph(I tried my best but was unsure how to get it like the book):
+
+```{r}
+ggplot(daphnia ,aes(parasite, growth.rate, shape=parasite,colour=parasite))+
+  geom_point(size=5)+
+  coord_flip()
+```
