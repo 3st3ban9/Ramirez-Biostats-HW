@@ -1,0 +1,14 @@
+---
+title: "Homework-26"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list = ls())
+library(here)
+library(tidyverse)
+library(ggfortify)
+pea<-read.csv(here("data","s_r_pea_sections.csv"))
+glimpse(pea)
+```
